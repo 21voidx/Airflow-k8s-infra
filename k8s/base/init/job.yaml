@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: airflow-init
+  namespace: airflow
+spec:
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: OnFailure
+      serviceAccountName: airflow
+      containers:
+        - name: airflow-init
+          image: AIRFLOW_IMAGE
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: airflow-config
+            - secretRef:
+                name: airflow-secret
+          command:
+            - bash
+            - -ec
+            - |
+              airflow db migrate
+              airflow fab-db migrate || true
+              airflow users create \
+                --username "$AIRFLOW_ADMIN_USERNAME" \
+                --firstname Admin \
+                --lastname User \
+                --role Admin \
+                --email "$AIRFLOW_ADMIN_EMAIL" \
+                --password "$AIRFLOW_ADMIN_PASSWORD" || true

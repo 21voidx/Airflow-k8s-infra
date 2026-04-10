@@ -1,0 +1,5 @@
+apache-airflow-providers-fab==3.6.0
+# Tambahkan provider lain sesuai kebutuhan proyek, misalnya:
+# apache-airflow-providers-google
+# apache-airflow-providers-postgres
+# apache-airflow-providers-cncf-kubernetes

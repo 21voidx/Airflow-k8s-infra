@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: airflow-triggerer
+  namespace: airflow
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: airflow-triggerer
+  template:
+    metadata:
+      labels:
+        app: airflow-triggerer
+    spec:
+      serviceAccountName: airflow
+      initContainers:
+        - name: git-sync-init
+          image: registry.k8s.io/git-sync/git-sync:v4.4.0
+          envFrom:
+            - configMapRef:
+                name: git-sync-config
+          env:
+            - name: GITSYNC_ONE_TIME
+              value: "true"
+            - name: GITSYNC_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: git-sync-secret
+                  key: username
+            - name: GITSYNC_PASSWORD_FILE
+              value: /etc/git-secret/password
+          volumeMounts:
+            - name: git-sync-data
+              mountPath: /git
+            - name: git-sync-secret-volume
+              mountPath: /etc/git-secret
+              readOnly: true
+      containers:
+        - name: triggerer
+          image: AIRFLOW_IMAGE
+          imagePullPolicy: IfNotPresent
+          command: ["bash", "-ec", "exec airflow triggerer"]
+          envFrom:
+            - configMapRef:
+                name: airflow-config
+            - secretRef:
+                name: airflow-secret
+          volumeMounts:
+            - name: git-sync-data
+              mountPath: /git
+            - name: airflow-logs
+              mountPath: /opt/airflow/logs
+        - name: git-sync
+          image: registry.k8s.io/git-sync/git-sync:v4.4.0
+          envFrom:
+            - configMapRef:
+                name: git-sync-config
+          env:
+            - name: GITSYNC_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: git-sync-secret
+                  key: username
+            - name: GITSYNC_PASSWORD_FILE
+              value: /etc/git-secret/password
+          volumeMounts:
+            - name: git-sync-data
+              mountPath: /git
+            - name: git-sync-secret-volume
+              mountPath: /etc/git-secret
+              readOnly: true
+      volumes:
+        - name: git-sync-data
+          emptyDir: {}
+        - name: airflow-logs
+          emptyDir: {}
+        - name: git-sync-secret-volume
+          secret:
+            secretName: git-sync-secret
+            items:
+              - key: password
+                path: password

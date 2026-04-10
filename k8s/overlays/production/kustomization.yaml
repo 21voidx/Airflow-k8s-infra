@@ -1,0 +1,12 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: airflow-prod
+resources:
+  - namespace.yaml
+  - ../../base
+patches:
+  - path: configmap-patch.yaml
+    target:
+      kind: ConfigMap
+      name: git-sync-config
+  - path: replicas-patch.yaml

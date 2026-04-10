@@ -1,0 +1,33 @@
+name: Validate PR
+
+on:
+  pull_request:
+    branches:
+      - dev
+      - prod
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v4
+        with:
+          version: v1.30.0
+
+      - name: Setup kustomize
+        run: |
+          curl -sL https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize/v5.4.3/kustomize_v5.4.3_linux_amd64.tar.gz | tar xz
+          sudo mv kustomize /usr/local/bin/kustomize
+
+      - name: Validate development overlay render
+        run: kustomize build k8s/overlays/development > /tmp/dev.yaml
+
+      - name: Validate production overlay render
+        run: kustomize build k8s/overlays/production > /tmp/prod.yaml
+
+      - name: Build image syntax check
+        run: docker build -t airflow-infra-pr-check:latest .

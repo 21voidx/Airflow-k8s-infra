@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: airflow-config
+  namespace: airflow
+data:
+  AIRFLOW__CORE__EXECUTOR: CeleryExecutor
+  AIRFLOW__CORE__AUTH_MANAGER: airflow.providers.fab.auth_manager.fab_auth_manager.FabAuthManager
+  AIRFLOW__CORE__DAGS_FOLDER: /git/current/dags
+  AIRFLOW__CORE__PLUGINS_FOLDER: /git/current/plugins
+  AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+  AIRFLOW__CORE__LOAD_DEFAULT_CONNECTIONS: "false"
+  AIRFLOW__CORE__DEFAULT_TIMEZONE: Asia/Jakarta
+  AIRFLOW__DATABASE__SQL_ALCHEMY_POOL_PRE_PING: "true"
+  AIRFLOW__SCHEDULER__ENABLE_HEALTH_CHECK: "true"
+  AIRFLOW__API__HOST: 0.0.0.0
+  AIRFLOW__API__PORT: "8080"
+  AIRFLOW__API__WORKERS: "2"
+  AIRFLOW__LOGGING__BASE_LOG_FOLDER: /opt/airflow/logs
+  AIRFLOW__LOGGING__LOGGING_LEVEL: INFO
+  TZ: Asia/Jakarta
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: git-sync-config
+  namespace: airflow
+data:
+  GITSYNC_REPO: https://github.com/YOUR_ORG/airflow-dags.git
+  GITSYNC_REF: dev
+  GITSYNC_ROOT: /git
+  GITSYNC_LINK: current
+  GITSYNC_PERIOD: 30s
+  GITSYNC_DEPTH: "1"
+  GITSYNC_ONE_TIME: "false"
+  GITSYNC_MAX_FAILURES: "-1"

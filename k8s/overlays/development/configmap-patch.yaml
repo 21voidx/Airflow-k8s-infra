@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: git-sync-config
+  namespace: airflow-dev
+data:
+  GITSYNC_REPO: https://github.com/YOUR_ORG/airflow-dags.git
+  GITSYNC_REF: dev
