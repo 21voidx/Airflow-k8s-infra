@@ -5,4 +5,5 @@ metadata:
   namespace: airflow-dev
 data:
   GITSYNC_REPO: https://github.com/21voidx/Airflow-k8s-dags-gitsync.git
-  GITSYNC_REF: dev
+# sementara
+  GITSYNC_REF: main
