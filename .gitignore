@@ -9,3 +9,5 @@ __pycache__/
 .DS_Store
 airflow-k8s-only/airflow-infra/k8s/base/git-sync-secret.yaml
 airflow-k8s-only/airflow-infra/k8s/base/secret.yaml
+k8s/base/git-sync-secret.yaml
+k8s/base/secret.yaml
