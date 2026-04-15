@@ -31,6 +31,14 @@ spec:
     spec:
       serviceAccountName: airflow
       initContainers:
+        - name: wait-for-init          # ← 1. Tunggu DB migrate selesai
+          image: bitnami/kubectl:latest
+          command:
+            - kubectl
+            - wait
+            - --for=condition=complete
+            - job/airflow-init
+            - --timeout=300s
         - name: git-sync-init
           image: registry.k8s.io/git-sync/git-sync:v4.4.0
           envFrom:
