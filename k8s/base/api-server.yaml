@@ -4,11 +4,13 @@ metadata:
   name: airflow-api-server
   namespace: airflow
 spec:
+  type: NodePort          # ← tambah ini
   selector:
     app: airflow-api-server
   ports:
     - port: 8080
       targetPort: 8080
+      nodePort: 8081      # ← port yang bisa diakses dari luar (sesuaikan keinginan)
 
 ---
 

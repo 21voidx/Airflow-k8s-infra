@@ -9,6 +9,11 @@ spec:
     spec:
       restartPolicy: OnFailure
       serviceAccountName: airflow
+      initContainers:
+        - name: wait-for-postgres
+          image: busybox
+          command: ['sh', '-c', 
+            'until nc -z airflow-postgres 5432; do echo waiting for postgres; sleep 3; done']
       containers:
         - name: airflow-init
           image: apache/airflow:3.0.6-python3.12
