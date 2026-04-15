@@ -13,6 +13,7 @@ resources:
   - dag-processor.yaml
   - worker.yaml
   - triggerer.yaml
+  - worker-service.yaml
 # images:
 #   - name: AIRFLOW_IMAGE
 #     newName: ghcr.io/YOUR_ORG/airflow-custom
