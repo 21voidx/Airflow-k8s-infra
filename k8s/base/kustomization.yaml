@@ -5,18 +5,18 @@ resources:
   - configmap.yaml
   - serviceaccount-rbac.yaml
   - pvc-postgres.yaml
-  - postgres/deployment.yaml
-  - postgres/service.yaml
-  - redis/deployment.yaml
-  - redis/service.yaml
-  - init/job.yaml
-  - api-server/deployment.yaml
-  - api-server/service.yaml
-  - scheduler/deployment.yaml
-  - dag-processor/deployment.yaml
-  - worker/deployment.yaml
-  - triggerer/deployment.yaml
-images:
-  - name: AIRFLOW_IMAGE
-    newName: ghcr.io/YOUR_ORG/airflow-custom
-    newTag: latest
+  - postgres.yaml
+  - postgres.yaml
+  - redis.yaml
+  - redis.yaml
+  - init.yaml
+  - api-server.yaml
+  - api-server.yaml
+  - scheduler.yaml
+  - dag-processor.yaml
+  - worker.yaml
+  - triggerer.yaml
+# images:
+#   - name: AIRFLOW_IMAGE
+#     newName: ghcr.io/YOUR_ORG/airflow-custom
+#     newTag: latest
