@@ -2,5 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: airflow-worker
+  namespace: airflow-dev 
 spec:
   replicas: 1
