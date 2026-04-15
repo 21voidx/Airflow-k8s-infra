@@ -49,6 +49,8 @@ spec:
           image: apache/airflow:3.0.6-python3.12
           imagePullPolicy: IfNotPresent
           command: ["bash", "-ec", "exec airflow celery worker"]
+          ports:
+            - containerPort: 8793
           envFrom:
             - configMapRef:
                 name: airflow-config
