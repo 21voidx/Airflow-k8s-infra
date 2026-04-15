@@ -9,4 +9,11 @@ patches:
     target:
       kind: ConfigMap
       name: git-sync-config
-  - path: replicas-patch.yaml
+  - path: worker-replicas-patch.yaml
+    target:
+      kind: Deployment
+      name: airflow-worker
+  - path: api-server-replicas-patch.yaml
+    target:
+      kind: Deployment
+      name: airflow-api-server
