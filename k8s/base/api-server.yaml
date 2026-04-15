@@ -10,7 +10,7 @@ spec:
   ports:
     - port: 8080
       targetPort: 8080
-      nodePort: 8081      # ← port yang bisa diakses dari luar (sesuaikan keinginan)
+      nodePort: 30081      # ← port yang bisa diakses dari luar (sesuaikan keinginan)
 
 ---
 
