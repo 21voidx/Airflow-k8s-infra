@@ -24,7 +24,7 @@ spec:
             - job/airflow-init
             - --timeout=300s
         - name: wait-for-redis
-          image: busybox:1.36
+          image: redis:7.2-alpine
           command:
             - sh
             - -c
