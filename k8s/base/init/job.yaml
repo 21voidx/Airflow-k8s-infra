@@ -11,7 +11,7 @@ spec:
       serviceAccountName: airflow
       containers:
         - name: airflow-init
-          image: AIRFLOW_IMAGE
+          image: apache/airflow:3.0.6-python3.12
           imagePullPolicy: IfNotPresent
           envFrom:
             - configMapRef:

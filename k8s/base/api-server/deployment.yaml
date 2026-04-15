@@ -38,7 +38,7 @@ spec:
               readOnly: true
       containers:
         - name: api-server
-          image: AIRFLOW_IMAGE
+          image: apache/airflow:3.0.6-python3.12
           imagePullPolicy: IfNotPresent
           command: ["bash", "-ec", "exec airflow api-server"]
           envFrom:
