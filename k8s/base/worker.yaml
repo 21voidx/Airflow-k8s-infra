@@ -33,6 +33,12 @@ spec:
                 echo "waiting for redis..."
                 sleep 3
               done
+          env:
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: airflow-secret
+                  key: REDIS_PASSWORD
         - name: git-sync-init
           image: registry.k8s.io/git-sync/git-sync:v4.4.0
           envFrom:
@@ -48,11 +54,6 @@ spec:
                   key: username
             - name: GITSYNC_PASSWORD_FILE
               value: /etc/git-secret/password
-            - name: REDIS_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: airflow-secret
-                  key: REDIS_PASSWORD
           volumeMounts:
             - name: git-sync-data
               mountPath: /git
