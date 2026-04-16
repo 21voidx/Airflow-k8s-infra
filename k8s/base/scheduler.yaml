@@ -63,18 +63,18 @@ spec:
             httpGet:
               path: /health
               port: 8974
-            initialDelaySeconds: 60   # give scheduler time to fully start
+            initialDelaySeconds: 120   # give scheduler time to fully start
             periodSeconds: 30
             timeoutSeconds: 5
-            failureThreshold: 5
+            failureThreshold: 10
           readinessProbe:
             httpGet:
               path: /health
               port: 8974
-            initialDelaySeconds: 60   # wait for scheduler to register heartbeat
+            initialDelaySeconds: 120   # wait for scheduler to register heartbeat
             periodSeconds: 15
             timeoutSeconds: 5
-            failureThreshold: 3
+            failureThreshold: 6
         - name: git-sync
           image: registry.k8s.io/git-sync/git-sync:v4.4.0
           envFrom:
