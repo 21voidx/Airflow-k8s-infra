@@ -76,13 +76,14 @@ spec:
                   sys.exit(0 if job else 1)
             initialDelaySeconds: 60
             periodSeconds: 300
+            timeoutSeconds: 30        # ← FIXED: was missing (defaulted to 1s!)
             failureThreshold: 5
           readinessProbe:
             exec:
               command: ["bash", "-ec", "airflow jobs check --job-type SchedulerJob"]
             initialDelaySeconds: 30
             periodSeconds: 15
-            timeoutSeconds: 10
+            timeoutSeconds: 30        # ← FIXED: was 10s, too short for CLI startup
             failureThreshold: 5
         - name: git-sync
           image: registry.k8s.io/git-sync/git-sync:v4.4.0
