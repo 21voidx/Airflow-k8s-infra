@@ -59,6 +59,24 @@ spec:
               mountPath: /git
             - name: airflow-logs
               mountPath: /opt/airflow/logs
+          livenessProbe:
+            exec:
+              command:
+                - python
+                - -c
+                - |
+                  import sys
+                  from airflow.jobs.job import Job
+                  from airflow.utils.db import create_session
+                  with create_session() as session:
+                      job = session.query(Job).filter(
+                          Job.job_type == "SchedulerJob",
+                          Job.state == "running",
+                      ).first()
+                  sys.exit(0 if job else 1)
+            initialDelaySeconds: 60
+            periodSeconds: 300
+            failureThreshold: 5
           readinessProbe:
             exec:
               command: ["bash", "-ec", "airflow jobs check --job-type SchedulerJob"]
