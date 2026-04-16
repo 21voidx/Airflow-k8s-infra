@@ -60,31 +60,21 @@ spec:
             - name: airflow-logs
               mountPath: /opt/airflow/logs
           livenessProbe:
-            exec:
-              command:
-                - python
-                - -c
-                - |
-                  import sys
-                  from airflow.jobs.job import Job
-                  from airflow.utils.db import create_session
-                  with create_session() as session:
-                      job = session.query(Job).filter(
-                          Job.job_type == "SchedulerJob",
-                          Job.state == "running",
-                      ).first()
-                  sys.exit(0 if job else 1)
-            initialDelaySeconds: 60
-            periodSeconds: 300
-            timeoutSeconds: 30        # ← FIXED: was missing (defaulted to 1s!)
+            httpGet:
+              path: /health
+              port: 8974
+            initialDelaySeconds: 60   # give scheduler time to fully start
+            periodSeconds: 30
+            timeoutSeconds: 5
             failureThreshold: 5
           readinessProbe:
-            exec:
-              command: ["bash", "-ec", "airflow jobs check --job-type SchedulerJob"]
-            initialDelaySeconds: 30
+            httpGet:
+              path: /health
+              port: 8974
+            initialDelaySeconds: 60   # wait for scheduler to register heartbeat
             periodSeconds: 15
-            timeoutSeconds: 30        # ← FIXED: was 10s, too short for CLI startup
-            failureThreshold: 5
+            timeoutSeconds: 5
+            failureThreshold: 3
         - name: git-sync
           image: registry.k8s.io/git-sync/git-sync:v4.4.0
           envFrom:
