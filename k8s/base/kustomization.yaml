@@ -4,7 +4,6 @@ namespace: airflow
 resources:
   - configmap.yaml
   - serviceaccount-rbac.yaml
-  - pvc-postgres.yaml
   - postgres.yaml
   - redis.yaml
   - init.yaml
@@ -13,7 +12,6 @@ resources:
   - dag-processor.yaml
   - worker.yaml
   - triggerer.yaml
-  - worker-service.yaml
 # images:
 #   - name: AIRFLOW_IMAGE
 #     newName: ghcr.io/YOUR_ORG/airflow-custom
