@@ -57,7 +57,7 @@ spec:
           volumeMounts:
             - name: git-sync-data
               mountPath: /git
-            - name: airflow-logs
+            - name: logs
               mountPath: /opt/airflow/logs
           livenessProbe:
             exec:
