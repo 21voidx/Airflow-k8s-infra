@@ -7,7 +7,6 @@ data:
   AIRFLOW__CORE__EXECUTOR: CeleryExecutor
   AIRFLOW__CORE__AUTH_MANAGER: airflow.providers.fab.auth_manager.fab_auth_manager.FabAuthManager
   AIRFLOW__CORE__DAGS_FOLDER: /git/current/dags
-  AIRFLOW__CORE__DEFAULT_TIMEZONE: "UTC"
   AIRFLOW__CORE__PLUGINS_FOLDER: /git/current/plugins
   AIRFLOW__CORE__LOAD_EXAMPLES: "false"
   AIRFLOW__CORE__LOAD_DEFAULT_CONNECTIONS: "false"
