@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: airflow
 resources:
   - configmap.yaml
-  - serviceaccount-rbac.yaml
+  - rbac.yaml
   - postgres.yaml
   - redis.yaml
   - init.yaml
