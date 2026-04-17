@@ -57,7 +57,7 @@ spec:
           volumeMounts:
             - name: git-sync-data
               mountPath: /git
-            - name: airflow-logs
+            - name: logs
               mountPath: /opt/airflow/logs
         - name: git-sync
           image: registry.k8s.io/git-sync/git-sync:v4.4.0
@@ -81,8 +81,9 @@ spec:
       volumes:
         - name: git-sync-data
           emptyDir: {}
-        - name: airflow-logs
-          emptyDir: {}
+        - name: logs
+          persistentVolumeClaim:
+            claimName: airflow-logs
         - name: git-sync-secret-volume
           secret:
             secretName: git-sync-secret

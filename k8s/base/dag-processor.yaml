@@ -78,11 +78,14 @@ spec:
             - name: git-sync-secret-volume
               mountPath: /etc/git-secret
               readOnly: true
+            - name: logs
+              mountPath: /opt/airflow/logs
       volumes:
         - name: git-sync-data
           emptyDir: {}
-        - name: airflow-logs
-          emptyDir: {}
+        - name: logs
+          persistentVolumeClaim:
+            claimName: airflow-logs
         - name: git-sync-secret-volume
           secret:
             secretName: git-sync-secret

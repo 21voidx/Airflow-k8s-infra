@@ -60,13 +60,23 @@ spec:
             - name: airflow-logs
               mountPath: /opt/airflow/logs
           livenessProbe:
-            httpGet:
-              path: /health
-              port: 8974
-            initialDelaySeconds: 120   # give scheduler time to fully start
-            periodSeconds: 30
-            timeoutSeconds: 5
-            failureThreshold: 10
+            exec:
+              command:
+                - python
+                - -c
+                - |
+                  import sys
+                  from airflow.jobs.job import Job
+                  from airflow.utils.db import create_session
+                  with create_session() as session:
+                      job = session.query(Job).filter(
+                          Job.job_type == "SchedulerJob",
+                          Job.state == "running",
+                      ).first()
+                  sys.exit(0 if job else 1)
+            initialDelaySeconds: 60
+            periodSeconds: 300
+            failureThreshold: 5
           readinessProbe:
             httpGet:
               path: /health
@@ -97,8 +107,9 @@ spec:
       volumes:
         - name: git-sync-data
           emptyDir: {}
-        - name: airflow-logs
-          emptyDir: {}
+        - name: logs
+          persistentVolumeClaim:
+            claimName: airflow-logs
         - name: git-sync-secret-volume
           secret:
             secretName: git-sync-secret
