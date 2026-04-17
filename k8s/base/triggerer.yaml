@@ -57,7 +57,7 @@ spec:
           volumeMounts:
             - name: git-sync-data
               mountPath: /git
-            - name: logs
+            - name: airflow-logs
               mountPath: /opt/airflow/logs
         - name: git-sync
           image: registry.k8s.io/git-sync/git-sync:v4.4.0

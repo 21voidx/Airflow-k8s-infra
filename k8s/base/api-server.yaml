@@ -102,7 +102,7 @@ spec:
             - name: git-sync-secret-volume
               mountPath: /etc/git-secret
               readOnly: true
-            - name: logs
+            - name: airflow-logs
               mountPath: /opt/airflow/logs
           livenessProbe:
             httpGet:
