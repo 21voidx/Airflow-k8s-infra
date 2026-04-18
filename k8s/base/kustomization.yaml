@@ -13,7 +13,10 @@ resources:
   - worker.yaml
   - triggerer.yaml
   - pvc.yaml
-# images:
-#   - name: AIRFLOW_IMAGE
-#     newName: ghcr.io/YOUR_ORG/airflow-custom
-#     newTag: latest
+images:
+  - name: AIRFLOW_IMAGE
+    newName: ghcr.io/21voidx/airflow-custom
+    newTag: 3.0.6-python3.12
+
+imagePullSecrets:
+  - name: ghcr-secret

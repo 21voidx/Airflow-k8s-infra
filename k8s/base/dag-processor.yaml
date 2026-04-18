@@ -46,7 +46,7 @@ spec:
               readOnly: true
       containers:
         - name: dag-processor
-          image: apache/airflow:3.0.6-python3.12
+          image: AIRFLOW_IMAGE
           imagePullPolicy: IfNotPresent
           command: ["bash", "-ec", "exec airflow dag-processor"]
           envFrom:
