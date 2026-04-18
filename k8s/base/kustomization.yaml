@@ -17,6 +17,3 @@ images:
   - name: AIRFLOW_IMAGE
     newName: ghcr.io/21voidx/airflow-custom
     newTag: 3.0.6-python3.12
-
-imagePullSecrets:
-  - name: ghcr-secret
